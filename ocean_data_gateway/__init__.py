@@ -25,7 +25,7 @@ from .utils import (  # isort:skip  # noqa: E402, F401
 
 
 from .gateway import Gateway  # isort:skip  # noqa: E402, F401
-from .readers import axds, erddap, local  # isort:skip  # noqa: E402
+from .readers import axds, erddap, local, stac  # isort:skip  # noqa: E402
 
 from .vars import (  # isort:skip  # noqa: F401, E402
     all_variables,
@@ -88,6 +88,7 @@ keys_kwargs = [
     "erddap",
     "axds",
     "local",
+    "stac",
     "readers",
     "kw",
     "stations",

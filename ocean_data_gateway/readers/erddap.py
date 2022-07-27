@@ -360,11 +360,11 @@ class ErddapReader(Reader):
             # narrow the dataset with xarray.
             # get opendap link
             download_url = self.e.get_download_url(response="opendap")
-
+        import pdb; pdb.set_trace()
         # check if "prediction" is present in metadata, esp in case of NOAA
         # model predictions
         is_prediction = "Prediction" in " ".join(
-            list(info["Value"].replace(np.nan, None).values)
+            list(info["Value"].replace(np.nan, " ").values)
         )
 
         # add erddap server name

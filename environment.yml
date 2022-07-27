@@ -12,6 +12,7 @@ dependencies:
   - flake8
   - h5netcdf
   - intake
+  # - intake-stac
   - intake-xarray
   - ioos_qc
   - ipython
@@ -28,3 +29,7 @@ dependencies:
   - requests
   - scipy
   - xarray
+  - pip:
+    - git+https://github.com/intake/intake-stac
+    - pystac-client
+    #- sat-search
