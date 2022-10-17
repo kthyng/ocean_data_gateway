@@ -27,6 +27,7 @@ dependencies:
   - pint-pandas
   - pint-xarray
   - pytest
+  - regex
   - requests
   - scipy
   - xarray

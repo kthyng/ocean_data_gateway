@@ -19,7 +19,7 @@ dependencies:
   - joblib
   - jupyter
   - jupyterlab
-  - matplotlib
+  - matplotlib-base
   - netcdf4
   - numpy
   - pandas
@@ -27,6 +27,7 @@ dependencies:
   - pint-pandas
   - pint-xarray
   - pytest
+  - regex
   - requests
   - scipy
   - xarray
