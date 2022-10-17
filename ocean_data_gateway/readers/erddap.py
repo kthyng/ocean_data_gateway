@@ -239,7 +239,8 @@ class ErddapReader(Reader):
                         search_url = self.e.get_search_url(
                             response="csv",
                             **self.kw,
-                            variableName=variable,
+                            **{self.category: variable},
+                            # variableName=variable,
                             items_per_page=10000,
                         )
 
@@ -581,6 +582,26 @@ class ErddapReader(Reader):
         output = odg.utils.load_data(self, dataset_ids)
         return output
 
+    def check_category(self, category="standard_name"):
+        """Standard names available at ERDDAP server.
+        
+        Parameters
+        ----------
+        category : str
+            Category for which to check availability on server. Default is "standard_name". Another good option for variables is "variableName"
+
+        Returns
+        -------
+        Dataframe
+            with columns "Category" containing the available category options and "URL" with the search url for each category value.
+        """
+
+        self.category = category
+
+        url = f'{self.e.server}/categorize/{category}/index.csv?page=1&itemsPerPage=100000'
+        df = pd.read_csv(url)#, index_col='Category')#, usecols=['Category'])
+        return df
+
 
 # Search for stations by region
 class region(ErddapReader):
@@ -683,17 +704,24 @@ class region(ErddapReader):
 
         # make sure variables are on parameter list
         if variables is not None:
-            # User is using criteria and variable nickname approach
-            if self.criteria and all(var in self.criteria for var in variables):
-                # first translate the input variable nicknames to variable names
-                # that are specific to the reader.
-                variables = odg.select_variables(
-                    self.e.server, self.criteria, variables
-                )
 
-            # user is inputting specific reader variable names
-            else:
-                odg.check_variables(self.e.server, variables)
+            # user either passed in standard_names or nicknames of criteria. Pass through or select
+            # matching standard_name
+            # url = f'{self.e.server}/categorize/standard_name/index.csv?page=1&itemsPerPage=100000'
+            # df = pd.read_csv(url)#, index_col='Category')#, usecols=['Category'])
+            variables = odg.select_variables2(self.check_category()['Category'].values, self.criteria, variables)
+
+            # # User is using criteria and variable nickname approach
+            # if self.criteria and all(var in self.criteria for var in variables):
+            #     # first translate the input variable nicknames to variable names
+            #     # that are specific to the reader.
+            #     variables = odg.select_variables(
+            #         self.e.server, self.criteria, variables
+            #     )
+
+            # # user is inputting specific reader variable names
+            # else:
+            #     odg.check_variables(self.e.server, variables)
             # record the number of variables so that a user can change it and
             # the change can be compared.
             self.num_variables = len(variables)

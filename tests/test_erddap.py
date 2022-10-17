@@ -64,7 +64,9 @@ def test_region_coastwatch():
         "min_lat": 20,
         "max_lat": 30,
     }
-    variables = ["water_u", "water_v"]
+    # switched to using standard_names to find variables instead of variableName
+    variables = ["surface_eastward_sea_water_velocity", "surface_northward_sea_water_velocity"]
+    # variables = ["water_u", "water_v"]
     region = odg.erddap.region(
         {"kw": kw, "variables": variables, "known_server": "coastwatch"}
     )

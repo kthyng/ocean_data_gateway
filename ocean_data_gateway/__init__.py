@@ -18,6 +18,7 @@ import requests  # noqa: E402
 
 from .utils import (  # isort:skip  # noqa: E402, F401
     Reader,
+    astype,
     load_data,
     resample_like,
     return_response,
@@ -32,6 +33,7 @@ from .vars import (  # isort:skip  # noqa: F401, E402
     check_variables,
     search_variables,
     select_variables,
+    select_variables2,
 )
 
 try:

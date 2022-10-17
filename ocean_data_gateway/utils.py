@@ -10,7 +10,7 @@ import multiprocessing
 from collections.abc import MutableMapping
 
 import pandas as pd
-
+import pathlib
 from joblib import Parallel, delayed
 
 
@@ -181,3 +181,14 @@ def return_response(url):
     # https://gist.github.com/kthyng/c3cc27de6b4449e1776ce79215d5e732
     response = requests.get(url)
     return ast.literal_eval(response.text)
+
+
+def astype(value, type_):
+    """Return `value` as type `type_`.
+    Particularly made to work correctly for returning string, `PosixPath`, or `Timestamp` as list.
+    """
+    if not isinstance(value, type_):
+        if type_ == list and isinstance(value, (str, pathlib.PurePath, pd.Timestamp)):
+            return [value]
+        return type_(value)
+    return value
